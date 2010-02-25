@@ -1,8 +1,6 @@
 #!/usr/bin/env python
-
 import os
 import sys
-#sys.path.append(os.path.abspath(os.path.dirname(__file__ + '../../../')))
 
 from pyinotify   import *
 from subprocess  import PIPE, Popen, call
@@ -12,14 +10,12 @@ import time
 import gc
 import dbus
 
-session_bus = dbus.SessionBus()
-
 global options
 
 DEFAULT_CMD = "nosetests"
 
 parser = OptionParser()
-
+parser.add_option("--directory",    action="store",  dest="directory", default=DEFAULT_CMD)
 parser.add_option("--cmd",    action="store",  dest="cmd", default=DEFAULT_CMD)
 parser.add_option("--applet", action="store_true", dest="applet", default=False)
 parser.add_option("--applet_debug", action="store_true", dest="applet_debug", default=False)
@@ -73,20 +69,10 @@ class main:
     def main(self):
         if options.applet:
             print "Running Gnome applet."
-            os.fork()
+            #os.fork()
 
-            import gnomeapplet
-
-            from gnome_applet import testMonitoring_factory
-            from gnome_applet import testMonitoringApplet
-            
-            gnomeapplet.bonobo_factory(
-                "OAFIID:GNOME_testMonitoring_factory",
-                testMonitoringApplet.__gtype__,
-                "Python applet example",
-                "0.1",
-                testMonitoring_factory
-                )
+            from gnome_notification import MonitorTray
+            MonitorTray(os.getcwd())
 
         print '==> monitoring %s (type ^c to exit)' % os.getcwd()
         handler = Monitoring(options=options)
