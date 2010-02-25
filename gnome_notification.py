@@ -28,7 +28,7 @@ except:
 
 
 parser = OptionParser()
-parser.add_option("--directory",    action="store",  dest="directory", default=".")
+parser.add_option("--directory",    action="store",  dest="directory", default=os.getcwd())
 parser.add_option("--cmd",    action="store",  dest="cmd", default=DEFAULT_CMD)
 parser.add_option("--applet", action="store_true", dest="applet", default=False)
 parser.add_option("--applet_debug", action="store_true", dest="applet_debug", default=False)
@@ -103,15 +103,18 @@ class MonitorTray:
 
 
     def timeout_callback(self):
-        f_handle = open('applet-notify.log', 'r')
-        return_values = f_handle.readlines()
-        last = return_values[-1]
-        
-        if int(last) != 0:
-            self.set_icon(self.bad_icon_path)
-        else:
-            self.set_icon(self.good_icon_path)
-
+        try:
+            f_handle = open('applet-notify.log', 'r')
+            return_values = f_handle.readlines()
+            last = return_values[-1]
+            
+            if int(last) != 0:
+                self.set_icon(self.bad_icon_path)
+            else:
+                self.set_icon(self.good_icon_path)
+        except Exception, E:
+            pass
+            
         return 1
 
             

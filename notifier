@@ -1,0 +1,4 @@
+#!/usr/bin/python
+from gnome_notification import gnome_notification
+main_c = gnome_notification.main()
+main_c.main()
