@@ -8,5 +8,5 @@ setup(name = "notifier",
       url='',
       packages = ["gnome_notification"],
       package_dir={'gnome_notification': '.'},
-      scripts=['notifier']
+      scripts=['test-notifier']
       )
